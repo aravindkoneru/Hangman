@@ -1,4 +1,5 @@
 Hangman
+Authors: aravindkoneru and bnding
 =======
 
 A simple game of Hangman made in Java. 
