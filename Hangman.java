@@ -144,7 +144,7 @@ public class Hangman {
 			System.out.println("You win");
 		}
 	}
-	
+
 	public String getWord(){
 		return word;
 	}

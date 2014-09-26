@@ -16,6 +16,19 @@ public class HangmanPanel extends JPanel {
 	private int wrongGuesses = 0;
 	private int correctGuesses = 0;
 	private int evenSpacing = 0;
+	private int xBase = PANEL_WIDTH / 5;
+	private int yBase = PANEL_HEIGHT / 10;
+
+	private int[][] lineCords = {
+		{xBase + 180, yBase + 100, xBase + 180, yBase + 185},
+		{xBase + 180, yBase + 100, xBase + 155, yBase + 165},
+		{xBase + 180, yBase + 100, xBase + 205, yBase + 165},
+		{xBase + 180, yBase + 185, xBase + 155, yBase + 250},
+		{xBase + 180, yBase + 185, xBase + 205, yBase + 250}
+	};
+
+	private Ellipse2D.Double head = new Ellipse2D.Double(xBase + 155, yBase + 50, 50, 50);
+
 
 	public HangmanPanel(String word) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -100,64 +113,20 @@ public class HangmanPanel extends JPanel {
 
 	public void wrongGuess(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
-		int xCord = PANEL_WIDTH / 5;
-		int yCord = PANEL_HEIGHT / 10;
-
-		if(correctGuesses < hangmanWord.length){
-			if(wrongGuesses == 1){
-				//head
-				Ellipse2D.Double head = new Ellipse2D.Double(xCord + 155, yCord + 50, 50, 50);
-				g2.draw(head);
-			} else if(wrongGuesses == 2){
-				//head
-				Ellipse2D.Double head = new Ellipse2D.Double(xCord + 155, yCord + 50, 50, 50);
-				g2.draw(head);
-				//body
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 180, yCord + 185);
-			} else if(wrongGuesses == 3){
-				//head
-				Ellipse2D.Double head = new Ellipse2D.Double(xCord + 155, yCord + 50, 50, 50);
-				//body
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 180, yCord + 185);
-				//arms
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 155, yCord + 165);
-				g2.draw(head);
-			} else if(wrongGuesses == 4){
-				//head
-				Ellipse2D.Double head = new Ellipse2D.Double(xCord + 155, yCord + 50, 50, 50);
-				//body
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 180, yCord + 185);
-				//arms
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 155, yCord + 165);
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 205, yCord + 165);
-				g2.draw(head);
-			} else if(wrongGuesses == 5){
-				//head
-				Ellipse2D.Double head = new Ellipse2D.Double(xCord + 155, yCord + 50, 50, 50);
-				//body
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 180, yCord + 185);
-				//arms
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 155, yCord + 165);
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 205, yCord + 165);
-				//legs
-				g2.drawLine(xCord + 180, yCord + 185, xCord + 155, yCord + 250);
-				g2.draw(head);
-			} else if(wrongGuesses == 6){
-				//head
-				Ellipse2D.Double head = new Ellipse2D.Double(xCord + 155, yCord + 50, 50, 50);
-				//body
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 180, yCord + 185);
-				//arms
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 155, yCord + 165);
-				g2.drawLine(xCord + 180, yCord + 100, xCord + 205, yCord + 165);
-				//legs
-				g2.drawLine(xCord + 180, yCord + 185, xCord + 155, yCord + 250);
-				g2.drawLine(xCord + 180, yCord + 185, xCord + 205, yCord + 250);
-				g2.draw(head);
-				g2.drawString("YOU LOSE!", PANEL_WIDTH/2, PANEL_HEIGHT/2);
+		if(wrongGuesses > 0){
+			g2.draw(head);
+			if(wrongGuesses > 1){
+				for(int x = 0; x < wrongGuesses-1; x++){
+					int[] cords = lineCords[x];
+					g2.drawLine(cords[0], cords[1], cords[2], cords[3]);
+				}
 			}
-		} else{
-				g2.drawString("YOU WON!", PANEL_WIDTH/2, PANEL_HEIGHT/2);
+		}
+
+		if(wrongGuesses == 6){
+			g2.drawString("YOU LOSE!", PANEL_WIDTH/2, PANEL_HEIGHT/2);
+		} else if(correctGuesses == hangmanWord.length) {
+			g2.drawString("YOU WON!", PANEL_WIDTH/2, PANEL_HEIGHT/2);
 		}
 	}
 
